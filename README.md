@@ -18,7 +18,7 @@ You can use it in any XML file just as you would a normal TextView:
     />
 ```
 
-The one last thing you have to do for the SocialTextView is to set it's SocialActionHandler.
+The one last thing you have to do for the SocialTextView is to set it's SocialActionHandler (You'll likely want to store this handler as a variable somewhere).
 
 ```java
 socialTextView = (SocialTextView) findViewById(R.id.social_text_example);
