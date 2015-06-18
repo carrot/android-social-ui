@@ -18,11 +18,10 @@ You can use it in any XML file just as you would a normal TextView:
     />
 ```
 
-The one last thing you have to do for the SocialTextView is to set it's SocialActionHandler (You'll likely want to store this handler as a variable somewhere).
+Next you'll want to create a SocialActionHandler.  This is the thing that defines how to handle the onClicks of each type.
 
 ```java
-socialTextView = (SocialTextView) findViewById(R.id.social_text_example);
-socialTextView.setSocialActionHandler(new SocialActionHandler() {
+SocialActionHandler mHandler = new SocialActionHandler() {
     @Override
     public void handleHashtag(String hashtag)
     {
@@ -41,6 +40,12 @@ socialTextView.setSocialActionHandler(new SocialActionHandler() {
         Toast.makeText(SignUpActivity.this, "URL: " + url, Toast.LENGTH_LONG).show();
     }
 });
+```
+The last thing you have to do for the SocialTextView is to set it's SocialActionHandler to the one you've just created.
+
+```java
+socialTextView = (SocialTextView) findViewById(R.id.social_text_example);
+socialTextView.setSocialActionHandler(mHandler);
 ```
 
 After this is done, the SocialTextView will display highlighted/underlined hashtags, mentions, and weblinks that are clickable and will be handled by their appropriate method.
