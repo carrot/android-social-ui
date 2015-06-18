@@ -5,7 +5,7 @@ Android Social UI is a library of android widgets that work well for social apps
 
 ## SocialTextView
 
-A SocialTextView is a standard android TextView with callbacks to handle `#hashtags` `@mentions` and web links.
+A SocialTextView is a standard android TextView with callbacks to handle the onClicks of `#hashtags` `@mentions` and web links.
 
 You can use it in any XML file just as you would a normal TextView:
 
