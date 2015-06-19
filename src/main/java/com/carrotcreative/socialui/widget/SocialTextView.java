@@ -14,6 +14,10 @@ import java.util.regex.Pattern;
 
 public class SocialTextView extends TextView {
 
+
+    private static final Pattern MENTION_PATTERN = Pattern.compile("^@([A-Za-z0-9_-]+)|\\s+@([A-Za-z0-9_-]+)");
+    private static final Pattern HASHTAG_PATTERN = Pattern.compile("^#([A-Za-z0-9_-]+)|\\s+#([A-Za-z0-9_-]+)");
+
     public SocialTextView(Context context)
     {
         this(context, null);
@@ -49,13 +53,14 @@ public class SocialTextView extends TextView {
             }
         };
 
+        // emails
+        Linkify.addLinks(this, Patterns.EMAIL_ADDRESS, null, null, filter);
+
         // @mentions
-        Pattern mentionPattern = Pattern.compile("@([A-Za-z0-9_-]+)");
-        Linkify.addLinks(this, mentionPattern, SocialMovementMethod.SOCIAL_UI_MENTION_SCHEME, null, filter);
+        Linkify.addLinks(this, MENTION_PATTERN, SocialMovementMethod.SOCIAL_UI_MENTION_SCHEME, null, filter);
 
         // #hashtags
-        Pattern hashtagPattern = Pattern.compile("#([A-Za-z0-9_-]+)");
-        Linkify.addLinks(this, hashtagPattern, SocialMovementMethod.SOCIAL_UI_HASHTAG_SCHEME, null, filter);
+        Linkify.addLinks(this, HASHTAG_PATTERN, SocialMovementMethod.SOCIAL_UI_HASHTAG_SCHEME, null, filter);
 
         // Links
         Linkify.addLinks(this, Patterns.WEB_URL, null, null, filter);
