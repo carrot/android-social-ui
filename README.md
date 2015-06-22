@@ -48,6 +48,13 @@ socialTextView = (SocialTextView) findViewById(R.id.social_text_example);
 socialTextView.setSocialActionHandler(mHandler);
 ```
 
+If you update the text in a SocialTextView, be sure to also call `linkify()` to ensure all elements become clickable.
+
+```java
+socialTextView.setText("Hello #World");
+socialTextView.linkify();
+```
+
 After this is done, the SocialTextView will display highlighted/underlined hashtags, mentions, and weblinks that are clickable and will be handled by their appropriate method.
 
 ## License

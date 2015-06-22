@@ -41,7 +41,7 @@ public class SocialTextView extends TextView {
         setMovementMethod(movementMethod);
     }
 
-    private void linkify()
+    public void linkify()
     {
         Linkify.TransformFilter filter = new Linkify.TransformFilter() {
             public final String transformUrl(final Matcher match, String url) {
