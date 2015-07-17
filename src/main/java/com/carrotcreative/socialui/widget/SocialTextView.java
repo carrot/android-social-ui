@@ -59,10 +59,12 @@ public class SocialTextView extends TextView {
         // Links
         Linkify.addLinks(this, Patterns.WEB_URL, null, null, filter);
 
-
         // Hooking up the actionHandler
-        SocialMovementMethod movementMethod = new SocialMovementMethod(actionHandler);
-        setMovementMethod(movementMethod);
+        if(actionHandler != null)
+        {
+            SocialMovementMethod movementMethod = new SocialMovementMethod(actionHandler);
+            setMovementMethod(movementMethod);
+        }
     }
 
 }
