@@ -1,6 +1,7 @@
 package com.carrotcreative.socialui.widget;
 
 import android.content.Context;
+import android.text.method.MovementMethod;
 import android.text.util.Linkify;
 import android.util.AttributeSet;
 import android.util.Patterns;
@@ -60,11 +61,12 @@ public class SocialTextView extends TextView {
         Linkify.addLinks(this, Patterns.WEB_URL, null, null, filter);
 
         // Hooking up the actionHandler
+        MovementMethod movementMethod = null;
         if(actionHandler != null)
         {
-            SocialMovementMethod movementMethod = new SocialMovementMethod(actionHandler);
-            setMovementMethod(movementMethod);
+            movementMethod = new SocialMovementMethod(actionHandler);
         }
+        setMovementMethod(movementMethod);
     }
 
 }
