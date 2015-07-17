@@ -36,16 +36,16 @@ public class SocialTextView extends TextView {
 
     protected void init(Context context, AttributeSet attrs, int defStyle)
     {
-        linkify();
+        // Do Nothing.  Here to allow subclassing
     }
 
-    public void setSocialActionHandler(SocialActionHandler actionHandler)
+    private void setSocialActionHandler(SocialActionHandler actionHandler)
     {
         SocialMovementMethod movementMethod = new SocialMovementMethod(actionHandler);
         setMovementMethod(movementMethod);
     }
 
-    public void linkify()
+    public void linkify(SocialActionHandler actionHandler)
     {
         Linkify.TransformFilter filter = new Linkify.TransformFilter() {
             public final String transformUrl(final Matcher match, String url) {
@@ -64,6 +64,9 @@ public class SocialTextView extends TextView {
 
         // Links
         Linkify.addLinks(this, Patterns.WEB_URL, null, null, filter);
+
+        // Hooking up the actionHandler
+        setSocialActionHandler(actionHandler);
     }
 
 }
