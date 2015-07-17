@@ -39,12 +39,6 @@ public class SocialTextView extends TextView {
         // Do Nothing.  Here to allow subclassing
     }
 
-    private void setSocialActionHandler(SocialActionHandler actionHandler)
-    {
-        SocialMovementMethod movementMethod = new SocialMovementMethod(actionHandler);
-        setMovementMethod(movementMethod);
-    }
-
     public void linkify(SocialActionHandler actionHandler)
     {
         Linkify.TransformFilter filter = new Linkify.TransformFilter() {
@@ -65,8 +59,10 @@ public class SocialTextView extends TextView {
         // Links
         Linkify.addLinks(this, Patterns.WEB_URL, null, null, filter);
 
+
         // Hooking up the actionHandler
-        setSocialActionHandler(actionHandler);
+        SocialMovementMethod movementMethod = new SocialMovementMethod(actionHandler);
+        setMovementMethod(movementMethod);
     }
 
 }
