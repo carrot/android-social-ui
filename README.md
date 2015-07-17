@@ -45,7 +45,7 @@ The last thing you have to do for the SocialTextView is to set it's SocialAction
 
 ```java
 socialTextView = (SocialTextView) findViewById(R.id.social_text_example);
-socialTextView.setSocialActionHandler(mHandler);
+socialTextView.linkify(mHandler);
 ```
 
 If you update the text in a SocialTextView, be sure to also call `linkify()` to ensure all elements become clickable.
