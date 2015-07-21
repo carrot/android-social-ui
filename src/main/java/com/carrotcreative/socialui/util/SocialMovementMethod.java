@@ -56,11 +56,13 @@ public class SocialMovementMethod extends LinkMovementMethod {
         if(url.startsWith(SOCIAL_UI_HASHTAG_SCHEME))
         {
             String hashtag = url.replaceFirst(SOCIAL_UI_HASHTAG_SCHEME, "");
+            hashtag = hashtag.replaceFirst(".*#", "");
             mHandler.handleHashtag(hashtag);
         }
         else if(url.startsWith(SOCIAL_UI_MENTION_SCHEME))
         {
             String mention = url.replaceFirst(SOCIAL_UI_MENTION_SCHEME, "");
+            mention = mention.replaceFirst(".*@", "");
             mHandler.handleMention(mention);
         }
         else
