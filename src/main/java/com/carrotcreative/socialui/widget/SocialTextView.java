@@ -16,8 +16,8 @@ import java.util.regex.Pattern;
 public class SocialTextView extends TextView {
 
 
-    private static final Pattern MENTION_PATTERN = Pattern.compile("^@([A-Za-z0-9_-]+)|\\s+@([A-Za-z0-9_-]+)");
-    private static final Pattern HASHTAG_PATTERN = Pattern.compile("^#([A-Za-z0-9_-]+)|\\s+#([A-Za-z0-9_-]+)");
+    private static final Pattern MENTION_PATTERN = Pattern.compile("@([A-Za-z0-9_-]+)");
+    private static final Pattern HASHTAG_PATTERN = Pattern.compile("#([A-Za-z0-9_-]+)");
 
     public SocialTextView(Context context)
     {
