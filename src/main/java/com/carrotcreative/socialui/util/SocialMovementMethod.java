@@ -3,6 +3,7 @@ package com.carrotcreative.socialui.util;
 import android.text.Layout;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
+import android.util.Patterns;
 import android.view.MotionEvent;
 
 public class SocialMovementMethod extends LinkMovementMethod {
@@ -64,6 +65,10 @@ public class SocialMovementMethod extends LinkMovementMethod {
             String mention = url.replaceFirst(SOCIAL_UI_MENTION_SCHEME, "");
             mention = mention.replaceFirst(".*@", "");
             mHandler.handleMention(mention);
+        }
+        else if(Patterns.EMAIL_ADDRESS.matcher(url).matches())
+        {
+            mHandler.handleEmail(url);
         }
         else
         {
