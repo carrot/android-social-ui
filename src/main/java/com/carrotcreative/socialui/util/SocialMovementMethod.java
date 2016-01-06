@@ -14,12 +14,12 @@ public class SocialMovementMethod extends LinkMovementMethod {
 
     // ===== Class =====
 
-    private SocialActionHandler mHandler;
+    private SocialActionCallback mSocialActionCallback;
 
-    public SocialMovementMethod(SocialActionHandler handler)
+    public SocialMovementMethod(SocialActionCallback socialActionCallback)
     {
         super();
-        mHandler = handler;
+        mSocialActionCallback = socialActionCallback;
     }
 
     public boolean onTouchEvent(android.widget.TextView widget, android.text.Spannable buffer, MotionEvent event)
@@ -58,21 +58,21 @@ public class SocialMovementMethod extends LinkMovementMethod {
         {
             String hashtag = url.replaceFirst(SOCIAL_UI_HASHTAG_SCHEME, "");
             hashtag = hashtag.replaceFirst(".*#", "");
-            mHandler.handleHashtag(hashtag);
+            mSocialActionCallback.onMatch(SocialActionType.HASH_TAG, hashtag);
         }
         else if(url.startsWith(SOCIAL_UI_MENTION_SCHEME))
         {
             String mention = url.replaceFirst(SOCIAL_UI_MENTION_SCHEME, "");
             mention = mention.replaceFirst(".*@", "");
-            mHandler.handleMention(mention);
+            mSocialActionCallback.onMatch(SocialActionType.MENTION, mention);
         }
         else if(Patterns.EMAIL_ADDRESS.matcher(url).matches())
         {
-            mHandler.handleEmail(url);
+            mSocialActionCallback.onMatch(SocialActionType.EMAIL, url);
         }
         else
         {
-            mHandler.handleUrl(url);
+            mSocialActionCallback.onMatch(SocialActionType.URL, url);
         }
     }
 
