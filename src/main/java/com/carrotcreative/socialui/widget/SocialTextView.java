@@ -1,7 +1,6 @@
 package com.carrotcreative.socialui.widget;
 
 import android.content.Context;
-import android.text.method.MovementMethod;
 import android.text.util.Linkify;
 import android.util.AttributeSet;
 import android.util.Patterns;
@@ -13,6 +12,8 @@ import com.carrotcreative.socialui.util.SocialActionHandler;
 import com.carrotcreative.socialui.util.SocialActionType;
 import com.carrotcreative.socialui.util.SocialMovementMethod;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,6 +21,7 @@ public class SocialTextView extends TextView
 {
     private static final Pattern MENTION_PATTERN = Pattern.compile("@([A-Za-z0-9_-]+)");
     private static final Pattern HASHTAG_PATTERN = Pattern.compile("#([A-Za-z0-9_-]+)");
+    private Map<Pattern, Integer> mCustomPatterns = new HashMap<>();
 
     public SocialTextView(Context context)
     {
@@ -78,6 +80,14 @@ public class SocialTextView extends TextView
             }
         };
 
+        //Add Custom patterns
+        for(Pattern pattern : mCustomPatterns.keySet())
+        {
+            int type = mCustomPatterns.get(pattern);
+            String scheme = getScheme(String.valueOf(type));
+            Linkify.addLinks(this, pattern, scheme, null, filter);
+        }
+
         // emails
         Linkify.addLinks(this, Patterns.EMAIL_ADDRESS, null, null, filter);
 
@@ -91,12 +101,44 @@ public class SocialTextView extends TextView
         Linkify.addLinks(this, Patterns.WEB_URL, null, null, filter);
 
         // Hooking up the actionHandler
-        MovementMethod movementMethod = null;
+        SocialMovementMethod movementMethod = null;
         if(actionCallback != null)
         {
             movementMethod = new SocialMovementMethod(actionCallback);
         }
+
+        //Add the custom schemes to the movement method
+        if(movementMethod != null)
+        {
+            for(Pattern pattern : mCustomPatterns.keySet())
+            {
+                int type = mCustomPatterns.get(pattern);
+                movementMethod.addCustomScheme(getScheme(String.valueOf(type)), type);
+            }
+        }
+
+        //set the movement method for the text view
         setMovementMethod(movementMethod);
     }
 
+    public void registerPattern(Pattern pattern, @SocialActionIntDef int type)
+    {
+        mCustomPatterns.put(pattern, type);
+    }
+
+    public void deregisterPattern(Pattern pattern)
+    {
+        for(Pattern pat : mCustomPatterns.keySet())
+        {
+            if(pat.equals(pattern))
+            {
+                mCustomPatterns.remove(pat);
+            }
+        }
+    }
+
+    private String getScheme(String scheme)
+    {
+        return SocialMovementMethod.SOCIAL_UI_BASE_SCHEME + "/" + scheme;
+    }
 }
