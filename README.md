@@ -5,7 +5,7 @@ Android Social UI is a library of android widgets that work well for social apps
 
 ## SocialTextView
 
-A SocialTextView is a standard android TextView with callbacks to handle the onClicks of `#hashtags` `@mentions` and `https://weblinks.com/`.
+A SocialTextView is a standard android TextView with callbacks to handle the onClicks of `#hashtags` `@mentions`, `email@domain.com` and `https://weblinks.com/`.
 
 You can use it in any XML file just as you would a normal TextView:
 
@@ -18,8 +18,7 @@ You can use it in any XML file just as you would a normal TextView:
     />
 ```
 
-Next you'll want to create a SocialActionHandler.  This is the thing that defines how to handle the onClicks of each type.
-
+Next you'll want to create a SocialActionHandler or a SocialActionCallback.  This is the thing that defines how to handle the onClicks of each type.
 ```java
 SocialActionHandler mHandler = new SocialActionHandler() {
     @Override
@@ -48,11 +47,27 @@ socialTextView = (SocialTextView) findViewById(R.id.social_text_example);
 socialTextView.linkify(mHandler);
 ```
 
-If you update the text in a SocialTextView, be sure to also call `linkify()` to ensure all elements become clickable.
+If you update the text in a SocialTextView, be sure to also call `linkify()` again to ensure all elements become clickable.
 
 ```java
 socialTextView.setText("Hello #World");
-socialTextView.linkify();
+socialTextView.linkify(mHandler);
+```
+
+You can also use SocialActionCallback, if you need to handle any one of the callbacks.
+
+```java
+socialTextView.linkify(new SocialActionCallback()
+{
+    @Override
+    public void onMatch(int type, String value)
+    {
+        if(type == SocialActionType.EMAIL)
+        {
+            Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+        }
+    }
+});
 ```
 
 After this is done, the SocialTextView will display highlighted/underlined hashtags, mentions, and weblinks that are clickable and will be handled by their appropriate method.
