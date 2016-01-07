@@ -1,7 +1,6 @@
 package com.carrotcreative.socialui.util;
 
 import android.text.Layout;
-import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
 import android.util.Patterns;
@@ -32,6 +31,14 @@ public class SocialMovementMethod extends LinkMovementMethod {
     public void addCustomScheme(String scheme, @SocialActionIntDef int type)
     {
         mCustomScheme.put(scheme, type);
+    }
+
+    public void removeCustomScheme(String scheme)
+    {
+        if(mCustomScheme.containsKey(scheme))
+        {
+            mCustomScheme.remove(scheme);
+        }
     }
 
     public boolean onTouchEvent(android.widget.TextView widget, android.text.Spannable buffer, MotionEvent event)

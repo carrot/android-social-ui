@@ -1,6 +1,7 @@
 package com.carrotcreative.socialui.widget;
 
 import android.content.Context;
+import android.text.method.MovementMethod;
 import android.text.util.Linkify;
 import android.util.AttributeSet;
 import android.util.Patterns;
@@ -128,12 +129,20 @@ public class SocialTextView extends TextView
 
     public void deregisterPattern(Pattern pattern)
     {
-        for(Pattern pat : mCustomPatterns.keySet())
+        if(mCustomPatterns.containsKey(pattern))
         {
-            if(pat.equals(pattern))
-            {
-                mCustomPatterns.remove(pat);
-            }
+            removePatternFromMovementMethod(mCustomPatterns.get(pattern));
+            mCustomPatterns.remove(pattern);
+        }
+    }
+
+    private void removePatternFromMovementMethod(int patternType)
+    {
+        MovementMethod movementMethod = getMovementMethod();
+        if(movementMethod != null && movementMethod instanceof SocialMovementMethod)
+        {
+            SocialMovementMethod method = (SocialMovementMethod) movementMethod;
+            method.removeCustomScheme(getScheme(String.valueOf(patternType)));
         }
     }
 
