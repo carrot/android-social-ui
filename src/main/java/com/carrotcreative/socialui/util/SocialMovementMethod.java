@@ -6,11 +6,17 @@ import android.text.style.URLSpan;
 import android.util.Patterns;
 import android.view.MotionEvent;
 
+import com.carrotcreative.socialui.annotation.SocialActionIntDef;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class SocialMovementMethod extends LinkMovementMethod {
 
     public static final String SOCIAL_UI_BASE_SCHEME = "http://www.socialui.carrotcreative.com";
     public static final String SOCIAL_UI_HASHTAG_SCHEME = SOCIAL_UI_BASE_SCHEME + "/hashtag";
     public static final String SOCIAL_UI_MENTION_SCHEME = SOCIAL_UI_BASE_SCHEME + "/mention";
+    private Map<String, Integer> mCustomScheme = new HashMap<>();
 
     // ===== Class =====
 
@@ -22,10 +28,22 @@ public class SocialMovementMethod extends LinkMovementMethod {
         mSocialActionCallback = socialActionCallback;
     }
 
+    public void addCustomScheme(String scheme, @SocialActionIntDef int type)
+    {
+        mCustomScheme.put(scheme, type);
+    }
+
+    public void removeCustomScheme(String scheme)
+    {
+        if(mCustomScheme.containsKey(scheme))
+        {
+            mCustomScheme.remove(scheme);
+        }
+    }
+
     public boolean onTouchEvent(android.widget.TextView widget, android.text.Spannable buffer, MotionEvent event)
     {
         int action = event.getAction();
-
         if (action == MotionEvent.ACTION_UP)
         {
             int x = (int) event.getX();
@@ -54,6 +72,17 @@ public class SocialMovementMethod extends LinkMovementMethod {
 
     private void handleURL(String url)
     {
+        //Check custom patterns
+        for(String customScheme : mCustomScheme.keySet())
+        {
+            if(url.startsWith(customScheme))
+            {
+                String match = url.replaceFirst(customScheme, "");
+                mSocialActionCallback.onMatch(mCustomScheme.get(customScheme), match);
+                return;
+            }
+        }
+
         if(url.startsWith(SOCIAL_UI_HASHTAG_SCHEME))
         {
             String hashtag = url.replaceFirst(SOCIAL_UI_HASHTAG_SCHEME, "");
